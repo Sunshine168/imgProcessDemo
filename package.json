@@ -1,0 +1,29 @@
+{
+  "name": "imgProcess",
+  "version": "1.0.0",
+  "description": "alloyphoto engine with koa2",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sunner168",
+  "license": "MIT",
+  "dependencies": {
+    "async-file": "^2.0.2",
+    "babel-core": "6.13.2",
+    "babel-polyfill": "6.13.0",
+    "babel-preset-es2015-node6": "0.3.0",
+    "babel-preset-stage-3": "6.5.0",
+    "koa": "2.0.0",
+    "koa-better-body": "^3.0.2",
+    "koa-bodyparser": "3.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-ejs": "^4.0.0",
+    "koa-formidable": "^1.1.0",
+    "koa-multer": "^1.0.1",
+    "koa-router": "7.0.0",
+    "koa-static": "^3.0.0",
+    "koa2-file-upload": "^0.1.18",
+    "uuid": "^3.0.1"
+  }
+}
