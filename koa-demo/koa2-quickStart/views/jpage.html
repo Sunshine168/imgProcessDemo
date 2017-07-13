@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="learn javascript by www.liaoxuefeng.com">
+    <title >{{title }}</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/jpage.css" media="screen" title="no title">
+    <script src="/static/js/bootstrap.js"></script>
+</head>
+
+<body>
+    <header class="navbar navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand">Learn JavaScript</a>
+            </div>
+            <nav class="collapse navbar-collapse" id="bs-navbar">
+                <ul class="nav navbar-nav">
+                    <li><a target="_blank" href="http://www.liaoxuefeng.com/">Get Courses</a></li>
+                    <li><a target="_blank" href="https://github.com/michaelliao/learn-javascript">Source Code</a></li>
+                    <li><a target="_blank" href="http://getbootstrap.com/">Resource</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div id="important" style="color:#cdbfe3; background-color:#6f5499; padding:30px 0; margin:-20px 0 20px 0;">
+        <div class="container">
+            <h1 style="color:#fff; font-size:60px">Getting started</h1>
+            <p style="font-size:24px; line-height:48px">Learn JavaScript, Node.js, npm, koa2, nunjucks, babel, etc. at liaoxuefeng.com.</p>
+        </div>
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><span class="glyphicon glyphicon-user"></span> Please sign in</h3>
+                </div>
+                <div class="panel-body">
+<form role="form" method="post" action="../profile">
+  <div class="form-group">
+    <label for="exampleInputFile">File input</label>
+    <input type="file" id="fileuploader">
+    <p class="help-block">Example block-level help text here.</p>
+  </div>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox"> Check me out
+    </label>
+  </div>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+                  <div id="app">
+                  <vue-nav :cur.sync="cur" :all.sync="all" v-on:btn-click="listen"></vue-nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Get more courses...</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">JavaScript</h3>
+                </div>
+                <div class="panel-body">
+                    <p>full-stack JavaScript course</p>
+                    <p><a target="_blank" href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000">Read more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Python</h3>
+                </div>
+                <div class="panel-body">
+                    <p>the latest Python course</p>
+                    <p><a target="_blank" href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">Read more</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">git</h3>
+                </div>
+                <div class="panel-body">
+                    <p>A course about git version control</p>
+                    <p><a target="_blank" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">Read more</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer style="background-color:#ddd; padding: 20px 0;">
+    <div class="container">
+        <p>
+            <a target="_blank" href="http://www.liaoxuefeng.com">Website</a> -
+            <a target="_blank" href="https://github.com/michaelliao/learn-javascript">GitHub</a> -
+            <a target="_blank" href="http://weibo.com/liaoxuefeng">Weibo</a>
+        </p>
+        <p>This JavaScript course is created by <a target="_blank" href="http://weibo.com/liaoxuefeng">@廖雪峰</a>.</p>
+        <p>Code licensed <a target="_blank" href="https://github.com/michaelliao/learn-javascript/blob/master/LICENSE">Apache</a>.</p>
+    </div>
+</footer>
+<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script src="/static/js/vue.js" charset="utf-8"></script>
+<script src="/static/js/vue-nav.js" charset="utf-8"></script>
+<script type="text/javascript">
+// Vue.config.delimiters = ['[[', ']]'];
+// Vue.config.unsafeDelimiters = ['{!!', '!!}'];
+  var app = new Vue({
+      el: '#app',
+      data:{
+        cur: 1,
+        all: 8,
+        msg: ''
+      },
+      components:{
+        'vue-nav': Vnav
+      },
+      methods:{
+        listen:function(data){
+            this.msg = '你点击了'+data+ '页'
+        }
+      }
+  })
+
+</script>
+</body>
+
+</html>
