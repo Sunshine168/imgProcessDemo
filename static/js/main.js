@@ -794,7 +794,9 @@
             }
         }
     };
-
-    Main.init();
+    if(!window.AlloyImagePlugTools)
+     {
+         window.AlloyImagePlugTools = Main
+     }
 
 })();
