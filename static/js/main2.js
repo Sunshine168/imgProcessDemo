@@ -1,87 +1,52 @@
+
 (function () {
     var Main = {
         img: null,
-        addEvent: function (selector, eventType, func) {
-            var proName = "";
-            switch (true) {
-                case /^ \./.test(selector):
-                    proName = "className";
-                    selector = selector.replace(".", "");
-                    break;
-                case / ^ \# /.test(selector):
-                    proName = "id";
-                    selector = selector.replace("#", "");
-                    break;
-                default:
-                    proName = "tagName";
-            }
-
-			document.body.addEventListener(eventType, function(e) {
-				function check(node) {
-					if (!node.parentNode) return;
-
-					if (node[proName] == selector) {
-						func.call(node, e);
-					};
-					check(node.parentNode);
-				}
-				check(e.target);
-			}, false);
-        },
+        actionStack: [],
+        openPicCallBack:null,
+        picLoadTime:'',
         eventAtt: function () {
             var _this = this;
-            this.addEvent(".pic", "dragstart", function (e) {
-                var dx = e.offsetX
-                    ? e.offsetX
-                    : e.layerX;
-                var dy = e.offsetY
-                    ? e.offsetY
-                    : e.layerY;
-                e
-                    .dataTransfer
-                    .setData("dx", dx);
-                e
-                    .dataTransfer
-                    .setData("dy", dy);
-            });
-            
-            this.addEvent(".pic", "drag", function (e) {
-                e.preventDefault();
-            });
-            this.addEvent(".picWrapper", "dragover", function (e) {
-                e.preventDefault();
-            });
-            this.addEvent(".picWrapper", "drop", function (e) {
-                var dx = e
-                    .dataTransfer
-                    .getData("dx");
-                var dy = e
-                    .dataTransfer
-                    .getData("dy");
-                var x = e.offsetX
-                    ? e.offsetX
-                    : e.layerX;
-                var y = e.offsetY
-                    ? e.offsetY
-                    : e.layerY;
 
-                var pic = document.getElementById("pic");
+            /*
+			this.addEvent(".pic","dragstart",function(e){
+			    var dx = e.offsetX ? e.offsetX : e.layerX;
+			    var dy = e.offsetY ? e.offsetY : e.layerY;
+			    e.dataTransfer.setData("dx", dx);
+			    e.dataTransfer.setData("dy", dy);
+			});
 
-                pic.style.left = (x - dx) + "px";
-                pic.style.top = (y - dy) + "px";
+			this.addEvent(".pic","drag",function(e){
+			    e.preventDefault();
+			});
+			this.addEvent(".picWrapper", "dragover", function(e){
+			    e.preventDefault();
+			});
+			this.addEvent(".picWrapper", "drop", function(e){
+			    var dx = e.dataTransfer.getData("dx");
+			    var dy = e.dataTransfer.getData("dy");
+			    var x = e.offsetX ? e.offsetX : e.layerX;
+			    var y = e.offsetY ? e.offsetY : e.layerY;
 
-            });
+			    var pic = document.getElementById("pic");
+
+			    pic.style.left = (x - dx) + "px";
+			    pic.style.top = (y - dy) + "px";
+
+
+			});
+			*/
 
             var clickFlag = 0,
                 dx,
                 dy,
                 left,
                 top;
-            this.addEvent(".pic", "mousedown", function (e) {
+            $(".pic").bind("mousedown", function (e) {
                 /*
-                    dx = e.offsetX ? e.offsetX : e.layerX;
-                    dy = e.offsetY ? e.offsetY : e.layerY;
-                    */
+				    dx = e.offsetX ? e.offsetX : e.layerX;
+				    dy = e.offsetY ? e.offsetY : e.layerY;
+				    */
 
                 dx = e.clientX;
                 dy = e.clientY;
@@ -91,43 +56,21 @@
 
                 clickFlag = 1;
             });
-            this.addEvent(".picWrapper", "mouseup", function (e) {
+            $(".pic").bind(".picWrapper", "mouseup", function (e) {
                 clickFlag = 0;
             });
 
-            document
-                .getElementById("picWrapper")
-                .onmousemove = function (e) {
-                /*
-                    var x = e.offsetX ? e.offsetX : e.layerX;
-                    var y = e.offsetY ? e.offsetY : e.layerY;
-                    */
-                var x = e.clientX;
-                var y = e.clientY;
+            // document     .getElementById("picWrapper")     .onmousemove = function (e) {
+            // /*     var x = e.offsetX ? e.offsetX : e.layerX;     var y = e.offsetY ?
+            // e.offsetY : e.layerY;     */     var x = e.clientX;     var y = e.clientY; if
+            // (clickFlag) {         var pic = document.getElementById("pic"); /* 	var x =
+            // e.offsetX ? e.offsetX : e.layerX; 	var y = e.offsetY ? e.offsetY : e.layerY;
+            // 	*/         var x = e.clientX;         var y = e.clientY; var rLeft = left +
+            // (x - dx);         var rTop = top + (y - dy);         if (rLeft < 0)  rLeft =
+            // 0;         if (rTop < 0)             rTop = 0; pic.style.left = rLeft + "px";
+            //         pic.style.top = rTop + "px";     } };
 
-                if (clickFlag) {
-                    var pic = document.getElementById("pic");
-
-                    /*
-                    var x = e.offsetX ? e.offsetX : e.layerX;
-                    var y = e.offsetY ? e.offsetY : e.layerY;
-                    */
-                    var x = e.clientX;
-                    var y = e.clientY;
-
-                    var rLeft = left + (x - dx);
-                    var rTop = top + (y - dy);
-                    if (rLeft < 0) 
-                        rLeft = 0;
-                    if (rTop < 0) 
-                        rTop = 0;
-                    
-                    pic.style.left = rLeft + "px";
-                    pic.style.top = rTop + "px";
-                }
-            };
-
-            this.addEvent(".d_item", "click", function (e) {
+            $(".d_item").click(function (e) {
                 var img = this.getElementsByTagName("img")[0];
                 var pic = document.getElementById("pic");
                 pic.src = img.src;
@@ -135,31 +78,38 @@
                     _this.initView();
                     _this.img = AlloyImage(this);
                 };
-            });
-            this.addEvent("#button", "click", function (e) {
+            })
+
+            $("#button").click(function (e) {
                 document
                     .getElementById("open")
                     .click();
             });
 
-            this.addEvent(".open", "change", function (e) {
+            $(".open").change(function (e) {
                 _this.openFile(e.target.files[0]);
+                //回调通知
             });
 
-            this.addEvent(".imgWrapper", "click", function (e) {
+            $(".imgWrapper").click(function (e) {
                 var text = this
                     .childNodes[1]
                     .nodeValue
                     .replace("效果", "");
-                var img = document.getElementById("pic");
+                    var time = new Date()
+                    _this.actionStack.push({
+                        time:time,
+                        action:text,
+                    })    
+                var img = document.getElementById('pic')
                 var AP = _this
                     .img
                     .clone();
                 if (text == "原图") 
                     AP.replace(img);
                 else {
-                    this.msgEle.style.display = "block";
-                    var _this = this
+                    msgEle.style.display = "block";
+
                     setTimeout(function () {
                         var t = +new Date();
                         AP
@@ -167,7 +117,7 @@
                             .replace(img)
                             .complete(function () {
                                 console.log(text + "：" + (+ new Date() - t) / 1000 + "s");
-                                _this.style.display = "none";
+                                msgEle.style.display = "none";
                             });
                     }, 2);
                 }
@@ -187,38 +137,34 @@
 
         },
 
-        init: function (element, msgElement) {
-            this.msgEle = msgElement
+        init: function () {
             this.initView();
             this.showModel();
+            this.eventAtt();
 
-            if (!element) {
-                throw new Error('初始化失败,请放入图片')
-            }
             var _this = this;
-            var pic = element;
-
+            var pic = document.getElementById("pic");
+   
             if (pic.complete) {
-                _this.img = AlloyImage(pic);
-                _this.initView();
-                _this.eventAtt();
-                console.log('init success,pic is completed')
+                this.img = AlloyImage(pic);
+                this.initView();
+                this.picLoadTime = new Date()
             } else {
                 pic.onload = function () {
                     _this.img = AlloyImage(this);
                     _this.initView();
-                    _this.eventAtt();
-                    console.log('init success, new status')
-
+                    console.log('init finished')
+                    _this.picLoadTime = new Date()
                 };
             }
+
         },
+
         initView: function () {
-            var _this = this
             var func = function () {
                 /*
-                var computedStyle = getComputedStyle(document.getElementById("picWrapper"));
-                */
+				var computedStyle = getComputedStyle(document.getElementById("picWrapper"));
+				*/
                 var w_width = parseInt(document.body.clientWidth) - 250;
                 var w_height = document.body.clientHeight;
                 var p_width = this.width;
@@ -234,8 +180,8 @@
                     : left;
                 this.style.left = left + "px";
                 this.style.top = top + "px";
-                _this.msgEle.style.left = (parseInt(w_width) - 100) / 2 + "px";
-                _this.msgEle.style.top = (parseInt(w_height) - 100) / 2 + "px";
+                msgEle.style.left = (parseInt(w_width) - 100) / 2 + "px";
+                msgEle.style.top = (parseInt(w_height) - 100) / 2 + "px";
             };
             func.call(document.getElementById("pic"));
 
@@ -256,50 +202,100 @@
                 pic.onload = function () {
                     _this.initView();
                     _this.img = AlloyImage(this);
+                    _this.picLoadTime = new Date()
+                    _this.openPicCallBack&&_this.openPicCallBack(_this);
                 };
             };
 
         },
 
+        updateImage:function(text){
+            var img = document.getElementById('pic')
+            var AP = this
+                .img
+                .clone();
+            if (text == "原图") 
+                AP.replace(img);
+            else {
+                msgEle.style.display = "block";
+                setTimeout(function () {
+                    var t = +new Date();
+                    AP
+                        .ps(text)
+                        .replace(img)
+                        .complete(function () {
+                            console.log(text + "：" + (+ new Date() - t) / 1000 + "s");
+                            msgEle.style.display = "none";
+                        });
+                }, 2);
+            }
+        },
+
         showModel: function () {
-            var EasyReflection = {
-                "美肤": "e1",
-                "素描": "e2",
-                "自然增强": "e3",
-                "紫调": "e4",
-                "柔焦": "e5",
-                "复古": "e6",
-                "黑白": "e7",
-                "仿lomo": "e8",
-                "亮白增强": "e9",
-                "灰白": "e10",
-                "灰色": "e11",
-                "暖秋": "e12",
-                "木雕": "e13",
-                "粗糙": "e14"
-            };
-            var effectModel = '<li class="e_item"><div class="imgWrapper"><img src="/static/style/image/demo/{p' +
-                    'ic}.png" alt="" />{effect}</div></li>';
-            var html = '<li class="e_item"><div class="imgWrapper"><img src="/static/style/image/demo/e1' +
-                    '.jpg" alt="" />原图</div></li>';
-            for (var i in EasyReflection) {
+            var EasyReflection = [
+                {
+                    title: "美肤",
+                    key: "e1"
+                }, {
+                    title: "素描",
+                    key: "e2"
+                }, {
+                    title: "自然增强",
+                    key: "e3"
+                }, {
+                    title: "紫调",
+                    key: "e4"
+                }, {
+                    title: "柔焦",
+                    key: "e5"
+                }, {
+                    title: "复古",
+                    key: "e6"
+                }, {
+                    title: "黑白",
+                    key: "e7"
+                }, {
+                    title: "仿lomo",
+                    key: "e8"
+                }, {
+                    title: "亮白增强",
+                    key: "e9"
+                }, {
+                    title: "灰白",
+                    key: "e10"
+                }, {
+                    title: "灰色",
+                    key: "e11"
+                }, {
+                    title: "暖秋",
+                    key: "e12"
+                }, {
+                    title: "木雕",
+                    key: "e13"
+                }, {
+                    title: "粗糙",
+                    key: "e14"
+                }
+            ];
+            var effectModel = '<li class="e_item"><div class="imgWrapper"><img src="static/style/image/demo/{pi' +
+                    'c}.png" alt="" />{effect}</div></li>';
+            var html = '<li class="e_item"><div class="imgWrapper"><img src="static/style/image/demo/e1.' +
+                    'jpg" alt="" />原图</div></li>';
+            for (var i = 0; i < EasyReflection.length; i++) {
                 html += effectModel
                     .replace("{effect}", i.length < 3
-                    ? i + "效果"
-                    : i)
-                    .replace("{pic}", EasyReflection[i]);
+                    ? EasyReflection[i].title + "效果"
+                    : EasyReflection[i].title)
+                    .replace("{pic}", EasyReflection[i].key);
             }
 
             document
                 .getElementById("effects")
                 .innerHTML = html;
         }
-
     };
-
-    //挂载到全局
-    if (!window.AlloyImagePlug) {
-        window.AlloyImagePlug = Main
+    if (!window.alloyImagePlug) {
+        //挂载到全局对象里去
+        window.alloyImagePlug = Main
     }
-
 })();
