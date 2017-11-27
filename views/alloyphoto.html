@@ -1,114 +1,346 @@
 <!DOCTYPE HTML>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
+  <meta charset="UTF-8">
   <meta name="author" content="Tencent.AlloyTeam.Dorsywang" />
   <meta name="copyright" content="Tencent.AlloyTeam" />
   <meta name="keywords" content="alloyPhoto 简约版,alloyImage,alloyPhoto,html5 canvas,alloyTeam" />
   <meta name="description" content="alloyPhoto简约版，一款基于alloyImage库的图像处理应用,alloyImage是基于html5的图像处理js代码库。" />
-  
-	<title>AlloyPhoto 简约版--Tencent AlloyTeam</title>
+
+  <title>AlloyPhoto 简约版--Tencent AlloyTeam</title>
   <link media="all" rel="stylesheet" href="/static/css/main.css" type="text/css" />
   <link media="all" rel="stylesheet" href="/static/css/bar.style.css" type="text/css" />
   <script type="text/javascript" src="/static/js/alloyimage.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
   <script type="text/javascript" src="/static/js/main2.js"></script>
 </head>
-<body>
-<div class="header">AlloyPhoto 简约版 1.0</div>
-<div class="wrapper">
-  <div class="left">
-    <h3>效果</h3>
-    <ul id="effects" class="effects">
-      <li class="e_item">
-        <div class="imgWrapper">
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="right">
-    <div id="picWrapper" class="picWrapper">
-        <img src="/static/img/bulding.jpg" class="pic" id="pic" alt="" draggable="false"/>
+<style>
+  .sk-cube-grid {
+    width: 100px;
+    height: 100px;
+    transform: translate(50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
 
+  .sk-cube-grid .sk-cube {
+    width: 33%;
+    height: 33%;
+    background-color: #fff;
+    float: left;
+    -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+    animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+  }
+
+  .sk-cube-grid .sk-cube1 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+  }
+
+  .sk-cube-grid .sk-cube2 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+  }
+
+  .sk-cube-grid .sk-cube3 {
+    -webkit-animation-delay: 0.4s;
+    animation-delay: 0.4s;
+  }
+
+  .sk-cube-grid .sk-cube4 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+  }
+
+  .sk-cube-grid .sk-cube5 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+  }
+
+  .sk-cube-grid .sk-cube6 {
+    -webkit-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+  }
+
+  .sk-cube-grid .sk-cube7 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+  }
+
+  .sk-cube-grid .sk-cube8 {
+    -webkit-animation-delay: 0.1s;
+    animation-delay: 0.1s;
+  }
+
+  .sk-cube-grid .sk-cube9 {
+    -webkit-animation-delay: 0.2s;
+    animation-delay: 0.2s;
+  }
+
+  @-webkit-keyframes sk-cubeGridScaleDelay {
+    0%,
+    70%,
+    100% {
+      -webkit-transform: scale3D(1, 1, 1);
+      transform: scale3D(1, 1, 1);
+    }
+    35% {
+      -webkit-transform: scale3D(0, 0, 1);
+      transform: scale3D(0, 0, 1);
+    }
+  }
+
+  @keyframes sk-cubeGridScaleDelay {
+    0%,
+    70%,
+    100% {
+      -webkit-transform: scale3D(1, 1, 1);
+      transform: scale3D(1, 1, 1);
+    }
+    35% {
+      -webkit-transform: scale3D(0, 0, 1);
+      transform: scale3D(0, 0, 1);
+    }
+  }
+
+  .modal {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.80);
+    z-index: 100;
+  }
+
+  .command_items li {
+    display: inline-block;
+  }
+</style>
+
+<body>
+  <div class="header">协图demo</div>
+  <div class="wrapper">
+    <div class="left">
+      <h3>效果</h3>
+      <ul id="effects" class="effects">
+        <li class="e_item">
+          <div class="imgWrapper">
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="middle">
+      <div id="picWrapper" class="picWrapper">
+        <img src="/static/img/bulding.jpg" class="pic" id="pic" alt="" draggable="false" />
         <div id="infoMsg">
           处理中
         </div>
+      </div>
     </div>
-    
-  </div>	
-</div>
-<div class="command">
-  <ul class="demoImg">
-    <li>示例图片 <br />demos</li>
-    <li class="d_item"><img src="/static/img/bulding.jpg" /><div class='lab'>建筑</div></li>
-    <li class="d_item"><img src="/static/img/big.jpg" /><div class='lab'>特写</div></li>
-    <li class="d_item"><img src="/static/img/small.jpg" /><div class='lab'>微距</div></li>
-    <li class="d_item"><img src="/static/img/girl.jpg" /><div class='lab'>人物</div></li>
-    <li class="d_item"><img src="/static/img/inner.jpg" /><div class='lab'>室内</div></li>
-    <li class="d_item"><img src="/static/img/pet.jpg" /><div class='lab'>宠物</div></li>
-    <li class="d_item"><img src="/static/img/scen.jpg" /><div class='lab'>风景</div></li>
-    <li class="d_item"><img src="/static/img/stop.jpg" /><div class='lab'>静物</div></li>
-  </ul>
-  <ul class="command_items">
-    <li>
-        <a id="button" href="#" class="mask button">打开图片</a>
-    </li>
-       <li>
-        <a class="button" href="#" class="mask" id="upload">上传到服务器</a>
-    </li>
-  </ul>
-  <div class="footer">
-    <div class="links">
-      <a href="alloyphotopro.html">专业版</a> &nbsp;&nbsp;<a href="http://alloyteam.github.com/AlloyPhoto/" target="_blank">Docs</a> &nbsp;&nbsp;<a target="_blank" href="http://www.dorsywang.com">Blog</a>
+    <div class="right" id="right">
+      <div></div>
     </div>
-    <div class="copyright">Copyright &copy; <script>document.write(new Date().getFullYear());</script> <a href="http://www.AlloyTeam.com/" target="_blank">Tencent AlloyTeam</a>. All Rights Reserved.</div>
+    <div class="command">
+      <ul class="command_items">
+        <li>
+          <a id="button" href="#" class="mask button">打开图片</a>
+        </li>
+        <li>
+          <a class="button" href="#" class="mask" id="upload">上传到服务器</a>
+        </li>
+        <li>
+          <a class="button" href="#" class="mask" id="upload">打开聊天面板</a>
+        </li>
+      </ul>
+      <div class="footer">
+        <div class="links">
+        </div>
+      </div>
+      <div id="message-list" class="message-container">
+        <div class="message-list" >
+          <div v-for="msg in messages" v-bind:class="{self_message:msg.self,other_message:!msg.self}">
+            <div class="media-body">
+              <span v-text="msg.data"></span>
+            </div>
+          </div>
+        </div>
+        <div class="message-control">
+          <input type="text" v-model="message" class="message-input">
+          <button v-on:click="sendMsg">发送信息</button>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
-<input type="file" name="open" id="open" class="open" />
-<script src="https://cdn.bootcss.com/jquery/2.1.0/jquery.min.js"></script>
-<script type="text/javascript">
 
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-23019343-9']);
-	  _gaq.push(['_trackPageview']);
-    $(function(){
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    console.log($("#upload"))
+  <div class="modal" id="modal">
+    <div class="sk-cube-grid">
+      <div class="sk-cube sk-cube1"></div>
+      <div class="sk-cube sk-cube2"></div>
+      <div class="sk-cube sk-cube3"></div>
+      <div class="sk-cube sk-cube4"></div>
+      <div class="sk-cube sk-cube5"></div>
+      <div class="sk-cube sk-cube6"></div>
+      <div class="sk-cube sk-cube7"></div>
+      <div class="sk-cube sk-cube8"></div>
+      <div class="sk-cube sk-cube9"></div>
+      <div>正在更换图片</div>
+    </div>
+  </div>
+
+  <input type="file" name="open" id="open" class="open" />
+  <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
+  <script src="https://cdn.bootcss.com/vue/2.5.8/vue.min.js"></script>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23019343-9']);
+    _gaq.push(['_trackPageview']);
+    var uid = 1;
+    $(function () {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+
       //上传base64图片
-         //上传文件事件
-        $("#upload").click(function(){
-              $("#upload").prop('disabled',true)//控制避免多次上传
-              var base64Data = $("#pic").attr('src');
-              base64_uploading(base64Data);
-        })
+      //上传文件事件
+      $("#upload").click(function () {
+        $("#upload").prop('disabled', true)//控制避免多次上传
+        var base64Data = $("#pic").attr('src');
+        base64_uploading(base64Data);
+      })
 
     })
-    function base64_uploading(base64Data){
+    function base64_uploading(base64Data) {
       var data = new FormData();
-     data.append('pic', base64Data);
-        $.ajax({
+      data.append('pic', base64Data);
+      $.ajax({
         type: 'POST',
         url: "../api/upload",
-         cache: false,
-    data: data,
-    processData: false,
-    contentType: false,
+        cache: false,
+        data: data,
+        processData: false,
+        contentType: false,
         timeout: 50000,
-        success: function(data){
-        console.log(data);
-        
+        success: function (data) {
+          console.log(data);
+
         },
-        complete:function() {
-          $("#upload").prop('disabled',false)
+        complete: function () {
+          $("#upload").prop('disabled', false)
         },
-        error: function(xhr, type){
+        error: function (xhr, type) {
           alert('上传超时啦，再试试');
-          
+
         }
-   });
-}
-</script>
+      });
+    }
+
+      (function () {
+        //
+        $('#modal').hide()
+        //get connect 
+        var socket = io.connect(),
+          initFlag = false,
+          beforeActionStackLength = 0,
+          plus;
+        socket.emit('join', '??')
+        socket.on('connect', function () {
+          console.log('connect')
+        });
+        socket.on('event', function (data) {
+          console.log(data)
+        });
+        socket.on('disconnect', function () {
+          console.log('disconnect')
+        });
+        window.addEventListener("DOMContentLoaded", function () {
+          msgEle = document.getElementById("infoMsg");
+
+          //init plug
+          window.alloyImagePlug.init();
+          plus = alloyImagePlug
+          beforeActionStackLength = plus.actionStack.length
+          //初始化回调函数
+          plus.openPicCallBack = function (plug) {
+            //通知图片发生改变
+            // plus.updateImage('原图')
+            //向服务器发送新的图片
+            var picSrc = $('#pic').attr('src')
+            socket.emit('pic-instead', JSON.stringify(
+              { picSrc, time: new Date() }
+            ))
+          }
+        }, false);
+
+        var timer = setInterval(function () {
+          if (!plus) {
+            return
+          }
+          if (plus.actionStack.length != beforeActionStackLength) {
+            //stack change
+            beforeActionStackLength = plus.actionStack.length
+            var action = plus.actionStack[beforeActionStackLength - 1]
+            socket.emit('new-Pic-Change', JSON.stringify(action))
+          }
+        }, 500)
+
+        socket.on('received-pic-message', function (data) {
+          //接受到服务器广播的指令
+          var receivedData = JSON.parse(data)
+          console.log('received-pic-message')
+          var localLatestAction = plus.actionStack[plus.actionStack.length - 1]
+          if (plus.actionStack.length == 0 || (new Date(localLatestAction.time) < new Date(receivedData.time))) {
+            //本地的最后一次调动时间低于服务器的时间
+            console.log('手动更新图片', receivedData.action)
+            plus.updateImage(receivedData.action)
+          }
+        })
+
+        socket.on('received-pic-instead', function (data) {
+          console.log('received-pic-instead')
+          $('#modal').show()
+          //接受到服务器广播的指令
+          var receivedData = JSON.parse(data)
+          console.log(new Date(plus.picLoadTime) < new Date(receivedData.time))
+          if (new Date(plus.picLoadTime) < new Date(receivedData.time)) {
+            console.log('should update pic')
+            //本地的最后一次调动时间低于服务器的时间
+            $('#pic').attr('src', `${receivedData.picSrc}`)
+          }
+          $('#modal').hide()
+        })
+
+        socket.on('received-message', function (data) {
+          var receivedData = JSON.parse(data)
+          vmMessageList.messages.push({
+            data: receivedData.message,
+            self: receivedData.uid === uid ? true : false,
+          })
+        })
+
+        //init message list 
+        var vmMessageList = new Vue({
+          el: '#message-list',
+          data: {
+            messages: [],
+            message: ''
+          },
+          methods: {
+            sendMsg: function () {
+              socket.emit('send-message', JSON.stringify({
+                message: this.message,
+                uid: uid,
+              }))
+            },
+          },
+        });
+
+
+      })()
+  </script>
 
 </body>
+
 </html>
